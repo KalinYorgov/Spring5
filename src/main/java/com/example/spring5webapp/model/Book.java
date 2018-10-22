@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Book{
@@ -18,8 +19,11 @@ public class Book{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String title;
-	private String publisher;
 	private String isbn;
+	
+	@OneToOne
+	private Publisher publisher;
+
 	
 	@ManyToMany
 	@JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), 
@@ -29,13 +33,13 @@ public class Book{
 	public Book() {
 	}
 	
-	public Book(String title, String publisher, String isbn){
+	public Book(String title, String isbn, Publisher publisher ){
 		this.title = title;
-		this.publisher = publisher;
 		this.isbn = isbn;
+		this.publisher = publisher;
 	}
  	
-	public Book(String title, String publisher, String isbn, Set<Author> authors){
+	public Book(String title, String isbn,  Set<Author> authors, Publisher publisher){
 		this.title = title;
 		this.publisher = publisher;
 		this.isbn = isbn;
@@ -54,10 +58,10 @@ public class Book{
 	public String getTitle() {
 		return title;
 	}
-	public void setPublisher(String publisher) {
+	public void setPublisher(Publisher publisher) {
 		this.publisher = publisher;
 	}
-	public String getPublisher() {
+	public Publisher getPublisher() {
 		return publisher;
 	}
 	public void setIsbn(String isbn) {
